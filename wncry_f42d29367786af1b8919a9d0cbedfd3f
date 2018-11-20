@@ -12,7 +12,7 @@ global rule dos_header
 }
 
 
-rule ransomeware:f42d29367786af1b8919a9d0cbedfd3f_wanacry
+rule ransomware:f42d29367786af1b8919a9d0cbedfd3f_wanacry
 {
 
 	meta:
