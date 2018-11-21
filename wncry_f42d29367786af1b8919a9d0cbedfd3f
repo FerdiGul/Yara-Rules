@@ -1,4 +1,5 @@
-/////////////// YARA RULE with global signature of mz dos header 2018-10-23 on malshare.com wanacry ///////////////
+//YARA RULE within mz dos header,lots of sample of yara for 2018-10-23 rancomware attack. Detais on malshare.com..
+//MD5 hash: [ f42d29367786af1b8919a9d0cbedfd3f ] 
 
 global rule dos_header
 {
@@ -41,4 +42,4 @@ $a8 = "MSVCP60.dll" fullword
 condition:
 dos_header and for all of ($a*):($) and $hex_grant and 1 of ($x*) and all of ($bwnry,$cwnry,$rwnry,$swnry) and $grant
 }
-/////////////// YARA RULE with global signature of mz dos header  ///////////////
+
