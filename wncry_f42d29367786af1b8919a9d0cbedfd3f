@@ -1,49 +1,45 @@
-/////////////// YARA RULE with global signature of mz dos header 2018-10-23 ///////////////
+/////////////// YARA RULE with global signature of mz dos header 2018-10-23 on malshare.com wanacry ///////////////
 
 global rule dos_header
 {
-	meta:
-		description="MZ DOS HEADER"
-	strings:
-		$ext_var==4
-	condition:
-		uint16(0)=0x5A4D
-		
+meta:
+description="MZ DOS HEADER"
+
+condition:
+uint16(0) == 0x5A4D and filesize < 4MB and filesize > 3MB
+
 }
 
 
-rule ransomware:f42d29367786af1b8919a9d0cbedfd3f_wanacry
+rule ransomware:wncry_f42d29367786af1b8919a9d0cbedfd3f
 {
+meta:
+description= "FG Yara Rule for WanaCry"
+author="Ferdi Gul"
+thread_level=3
+strings:
+$bwnry = {62 2E 77 6E 72 79}
+$cwnry = {63 2E 77 6E 72 79}
+$rwnry = {72 2E 77 6E 72 79}
+$swnry = {73 2E 77 6E 72 79}
+$x1 = "tasksche.exe"
+$x2 = "WNcry@"
+$x3 = "inflate 1.1.3 Copyright 1995-1998 Mark Adler"
+$x4 = "msg/m_"
 
-	meta:
-		description="FG Yara Rule for WanaCry"
-		author="Ferdi Gul"
-		thread_level=3
-		
-	strings:
-		$bwnry = {62 2E 77 6E 72 79}
-		$cwnry = {63 2E 77 6E 72 79}
-		$rwnry = {72 2E 77 6E 72 79}
-		$swnry = {73 2E 77 6E 72 79}
-                $x1 = "tasksche.exe"
-                $x2 = "WNcry@2017"
-                $x3 = "inflate 1.1.3 Copyright 1995-1998 Mark Adler"
-                $x4 = "msg/m_"
-                $grant = "icacls . /grant Everyone:F /T /C /Q"
-                $hex_grant = {69 63 61 [27-27] 20 2F 51 }
-             
-                $a0 = "KERNEL32.dll" nocase
-                $a1 = "USER32.dll" nocase
-                $a2 = "ADVAPI32.dll" nocase
-                $a3 = "SHELL32.dll" fullword
-                $a4 = "OLEAU32.dll" fullword
-                $a5 = "WS2_32.dll" fullword
-                $a6 = "MSVCRT" fullword
-                $a7 = "MSVCP6" fullword
-     
-			
-	condition:
-		for all of ($bwnry,$cwnry,$rwnry,$swnry,$a*): ($) and 1 of ($x*) and fileSize<int_ext_var and dos_header and $hex_grant
+$grant = "icacls . /grant Everyone:F /T /C /Q"
+$hex_grant = {69 63 61 [7-7] ?? 72 61 6E 74} // [8-8]:63 6C 73 20 2E 20 2F 67 //hex only for icacls . /grant
+
+$a1 = "KERNEL32.dll" nocase
+$a2 = "USER32.dll" nocase
+$a3 = "ADVAPI32.dll" nocase
+$a4 = "SHELL32.dll" fullword
+$a5 = "OLEAUT32.dll" fullword
+$a6 = "WS2_32.dll" fullword
+$a7 = "MSVCRT.dll" fullword
+$a8 = "MSVCP60.dll" fullword
+condition:
+dos_header and for all of ($a*):($) and $hex_grant and 1 of ($x*) and all of ($bwnry,$cwnry,$rwnry,$swnry) and $grant
 }
 
 /////////////// YARA RULE with global signature of mz dos header  ///////////////
