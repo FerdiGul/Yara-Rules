@@ -41,5 +41,4 @@ $a8 = "MSVCP60.dll" fullword
 condition:
 dos_header and for all of ($a*):($) and $hex_grant and 1 of ($x*) and all of ($bwnry,$cwnry,$rwnry,$swnry) and $grant
 }
-
 /////////////// YARA RULE with global signature of mz dos header  ///////////////
