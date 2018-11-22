@@ -1,4 +1,4 @@
-//YARA RULE within mz dos header,lots of sample of yara for 2018-10-23 rancomware attack. Detais on malshare.com..
+//YARA RULE within mz dos header,lots of sample of yara for 2018-10-23 ransomware attack. Detais on malshare.com..
 //MD5 hash: [ f42d29367786af1b8919a9d0cbedfd3f ] 
 
 global rule dos_header
